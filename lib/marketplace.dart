@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:baristapros/contants.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MarketplaceScreen extends StatelessWidget {
   final List<CoffeeItem> coffeeItems = [
@@ -9,52 +10,56 @@ class MarketplaceScreen extends StatelessWidget {
     CoffeeItem(name: 'Cappuccino', price: 4.5),
   ];
 
+  Future<void> _initiatePayment(BuildContext context, double amount) async {
+    try {
+      final clientSecret = await _createPaymentIntent(amount, 'usd');
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: clientSecret,
+          merchantDisplayName: "BaristaPro",
+        ),
+      );
+
+      await Stripe.instance.presentPaymentSheet();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Payment Successful!")));
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Payment Failed: $error")));
+    }
+  }
+
+  Future<String> _createPaymentIntent(double amount, String currency) async {
+    final response = await http.post(
+      Uri.parse("https://api.stripe.com/v1/payment_intents"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"amount": amount, "currency": currency}),
+    );
+
+    final responseData = jsonDecode(response.body);
+    return responseData["clientSecret"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Coffee Marketplace'),
+        title: Text('Marketplace'),
       ),
       body: ListView.builder(
         itemCount: coffeeItems.length,
         itemBuilder: (context, index) {
+          final item = coffeeItems[index];
           return ListTile(
-            title: Text(coffeeItems[index].name),
-            subtitle: Text('\$${coffeeItems[index].price.toStringAsFixed(2)}'),
+            title: Text(item.name),
+            subtitle: Text('\$${item.price}'),
             trailing: ElevatedButton(
-              onPressed: () => _initiatePayment(context, coffeeItems[index]),
+              onPressed: () => _initiatePayment(context, item.price),
               child: Text('Buy'),
             ),
           );
         },
       ),
     );
-  }
-
-  void _initiatePayment(BuildContext context, CoffeeItem item) async {
-    // Initialize Stripe
-    Stripe.publishableKey = 'your-publishable-key';
-
-    // Create a payment intent on your server and retrieve the client secret
-    final clientSecret = await _createPaymentIntent(item.price);
-
-    // Confirm the payment with the client secret
-    await Stripe.instance.confirmPayment(
-      PaymentIntent(
-        clientSecret: clientSecret,
-        paymentMethodId: 'your-payment-method-id',
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Payment for ${item.name} successful!')),
-    );
-  }
-
-  Future<String> _createPaymentIntent(double amount) async {
-    // Call your backend to create a payment intent and return the client secret
-    // This is a placeholder implementation
-    return 'your-client-secret';
   }
 }
 

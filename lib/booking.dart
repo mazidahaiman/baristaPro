@@ -1,104 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:baristapros/contants.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class BookingPage extends StatefulWidget {
+class BookingScreen extends StatefulWidget {
   @override
-  _BookingPageState createState() => _BookingPageState();
+  _BookingScreenState createState() => _BookingScreenState();
 }
 
-class _BookingPageState extends State<BookingPage> {
-  final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
-  String _phone = '';
+class _BookingScreenState extends State<BookingScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Map<String, dynamic>? paymentIntent;
+
+  Future<void> _makePayment() async {
+    try {
+      // 1️⃣ Create Payment Intent
+      paymentIntent = await _createPaymentIntent(20.0, 'usd');
+
+      // 2️⃣ Initialize Payment Sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          merchantDisplayName: "Your App",
+        ),
+      );
+
+      // 3️⃣ Present Payment Sheet
+      await Stripe.instance.presentPaymentSheet();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Payment Successful!")));
+      
+      setState(() {
+        paymentIntent = null;
+      });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Payment Failed: $error")));
+    }
+  }
+
+  Future<Map<String, dynamic>> _createPaymentIntent(double amount, String currency) async {
+    try {
+      // ⚠️ Using Secret Key Directly (Not Recommended)
+      const stripeSecretKey = "sk_test_51Qo6b6..."; // Your Secret Key
+
+      final response = await http.post(
+        Uri.parse("https://api.stripe.com/v1/payment_intents"),
+        headers: {
+          "Authorization": "Bearer $stripeSecretKey",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: {
+          "amount": (amount * 100).toString(), // Convert to cents
+          "currency": currency,
+          "payment_method_types[]": "card",
+        },
+      );
+
+      return jsonDecode(response.body);
+    } catch (error) {
+      throw Exception(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Booking Page'),
-      ),
+      appBar: AppBar(title: Text("Booking Page")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _name = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _email = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Phone'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _phone = value!;
-                },
-              ),
-              SizedBox(height: 20),
+            children: [
+              // Add your form fields here
               ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Book Now'),
+                onPressed: _makePayment,
+                child: Text("Make Payment"),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      _processPayment();
-    }
-  }
-
-  void _processPayment() async {
-    // Initialize Stripe
-    Stripe.publishableKey = 'your-publishable-key';
-    await Stripe.instance.applySettings();
-
-    // Create payment method
-    final paymentMethod = await Stripe.instance.createPaymentMethod(
-      PaymentMethodParams.card(
-        paymentMethodData: PaymentMethodData(
-          billingDetails: BillingDetails(
-            name: _name,
-            email: _email,
-            phone: _phone,
-          ),
-        ),
-      ),
-    );
-
-    // Handle payment confirmation and further processing here
-    // For example, send paymentMethod.id to your backend to complete the payment
   }
 }
