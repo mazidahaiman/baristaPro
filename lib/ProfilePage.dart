@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'EditProfilePage.dart'; // Add this import statement at the top of the file
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -204,7 +205,10 @@ class ProfileCard extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.edit, color: Colors.black54),
             onPressed: () {
-              // Handle edit profile action
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditProfilePage()), // Navigate to EditProfilePage
+              );
             },
           ),
         ],
