@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '503461756807',
     projectId: 'baristapros',
     storageBucket: 'baristapros.firebasestorage.app',
+    iosClientId: '503461756807-9bo1v0d0bfo0ghti0k272o3bbcl8g0kq.apps.googleusercontent.com',
     iosBundleId: 'com.example.trytest',
   );
 
@@ -72,6 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '503461756807',
     projectId: 'baristapros',
     storageBucket: 'baristapros.firebasestorage.app',
+    iosClientId: '503461756807-9bo1v0d0bfo0ghti0k272o3bbcl8g0kq.apps.googleusercontent.com',
     iosBundleId: 'com.example.trytest',
   );
 
@@ -83,4 +85,5 @@ class DefaultFirebaseOptions {
     authDomain: 'baristapros.firebaseapp.com',
     storageBucket: 'baristapros.firebasestorage.app',
   );
+
 }
