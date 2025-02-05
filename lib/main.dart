@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
-import 'homepage.dart';
+import 'NavBar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +32,7 @@ class AuthWrapper extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasData) {
-          return HomePage();
+          return MyHomePage();
         }
         return LandingPage();
       },
@@ -145,7 +145,7 @@ class LoginPage extends StatelessWidget {
                       email: emailController.text.trim(),
                       password: passwordController.text.trim(),
                     );
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
                   } catch (e) {
                     print("Error: $e");
                   }
@@ -187,7 +187,7 @@ class SignUpPage extends StatelessWidget {
                       email: emailController.text.trim(),
                       password: passwordController.text.trim(),
                     );
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LandingPage()));
                   } catch (e) {
                     print("Error: $e");
                   }

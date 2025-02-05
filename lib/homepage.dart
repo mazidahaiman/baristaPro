@@ -6,9 +6,7 @@ import 'package:trytest/views/BookingPage.dart';
 import 'package:trytest/views/MainPage.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-  final TextEditingController _searchController = TextEditingController();
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +39,7 @@ class HomePage extends StatelessWidget {
                           Navigator.of(context).pushReplacementNamed('/');
                         }
                       },
+                      
                       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                         PopupMenuItem<String>(
                           value: 'terms',
@@ -59,7 +58,7 @@ class HomePage extends StatelessWidget {
             Text("Enhance your coffee skills and business."),
             SizedBox(height: 20),
             TextField(
-              controller: _searchController,
+              //controller: _searchController,
               decoration: InputDecoration(
                 hintText: "Search for coffee recipes, tools...",
                 prefixIcon: IconButton(
@@ -81,11 +80,12 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _featureButtonWithNavigation(context, Icons.store, "Marketplace", MainPage()),
-                  _featureButtonWithNavigation(context, Icons.work, "Freelance Opportunities", MainPage()), // Update this with the correct page if needed
+                  _featureButtonWithNavigation(context, Icons.work, "Freelance Opportunities", MainPage()), //updated
                   _featureButtonWithNavigation(context, Icons.calendar_today, "Booking & Training", BookingPage()),
                 ],
               ),
-
+            SizedBox(height: 20),
+            
             SizedBox(height: 20),
             Text("Top Baristas", style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 10),
@@ -107,46 +107,9 @@ class HomePage extends StatelessWidget {
           ],
         ),
         ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Community"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
-        onTap: (index) => _onItemTapped(context, index),
-      ),
     );
   }
   
-  void _onItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityForumPage()));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-        break;
-    }
-  }
-
-
-  Widget _featureButton(IconData icon, String label) {
-    return Column(
-      children: [
-        CircleAvatar(
-          backgroundColor: Color(0xFF8B5E3B),
-          radius: 30,
-          child: Icon(icon, color: Colors.white, size: 30),
-        ),
-        SizedBox(height: 5),
-        Text(label, textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF3E2723))),
-      ],
-    );
-  }
 
 
   Widget _featureButtonWithNavigation(BuildContext context, IconData icon, String label, Widget page) {
@@ -167,6 +130,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _baristaProfile(String imagePath, String name) {
     return Column(
