@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ProfilePage.dart';
+import 'FreelancePage.dart'; // Add this import statement
+
 void main() {
   runApp(const MyApp());
 }
@@ -37,6 +39,16 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: Text('Profile Page'),
+            ),
+            SizedBox(height: 20), // Add some space between the buttons
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FreelancePage()),
+                );
+              },
+              child: Text('Freelance Page'),
             ),
           ],
         ),
