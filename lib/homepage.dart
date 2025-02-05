@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trytest/profile.dart';
-import 'community.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trytest/views/BookingPage.dart';
 import 'package:trytest/views/MainPage.dart';
@@ -112,24 +110,47 @@ class HomePage extends StatelessWidget {
   
 
 
-  Widget _featureButtonWithNavigation(BuildContext context, IconData icon, String label, Widget page) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-      },
-      child: Column(
-        children: [
-          CircleAvatar(
-            backgroundColor: Color(0xFF8B5E3B),
-            radius: 30,
-            child: Icon(icon, color: Colors.white, size: 30),
+Widget _featureButtonWithNavigation(BuildContext context, IconData icon, String label, Widget page) {
+  return Column(
+    children: [
+      MouseRegion(
+        cursor: SystemMouseCursors.click, // Change cursor on hover
+        onEnter: (_) {
+          // Increase size on hover
+          _changeSize(context, 33);
+        },
+        onExit: (_) {
+          // Revert size after hover
+          _changeSize(context, 30);
+        },
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+          },
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFF8B5E3B),
+            ),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 30,
+              child: Icon(icon, color: Colors.white, size: 30),
+            ),
           ),
-          SizedBox(height: 5),
-          Text(label, textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF3E2723))),
-        ],
-      ),
-    );
-  }
+        ),
+            ),
+            SizedBox(height: 5),
+            Text(label, textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF3E2723))),
+          ],
+        );
+      }
+
+      void _changeSize(BuildContext context, double size) {
+        // Implement size change logic here
+        // This function should trigger a rebuild with the new size
+            }
 
 
   Widget _baristaProfile(String imagePath, String name) {

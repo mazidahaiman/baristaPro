@@ -26,19 +26,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _selectedIndex == 0
-            ? const Text('Home Page')
-            : _selectedIndex == 1
-                ? const Text('Community Page')
-                : const Text('Profile Page'),
-      ),
+      backgroundColor: Color(0xFF6F4E37), // Change the color code here
+      
       body: Center(
         child: pages.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onTapItem: onTapItem,
+        // Change the color code here
       ),
     );
   }
