@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trytest/profile.dart';
 import 'community.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trytest/views/BookingPage.dart';
@@ -125,6 +126,9 @@ class HomePage extends StatelessWidget {
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityForumPage()));
+        break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
         break;
     }
   }
