@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'community.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trytest/views/BookingPage.dart';
+import 'package:trytest/views/MainPage.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -75,43 +77,14 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _featureButton(Icons.work, "Freelance Opportunities"),
-                _featureButton(Icons.calendar_today, "Booking & Training"),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _featureButton(Icons.store, "Marketplace"),
-                _featureButton(Icons.restaurant_menu, "Recipes"),
-              ],
-            ),
-            SizedBox(height: 20),
-            Card(
-              color: Color(0xFFF5E1C0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _featureButtonWithNavigation(context, Icons.store, "Marketplace", MainPage()),
+                  _featureButtonWithNavigation(context, Icons.work, "Freelance Opportunities", MainPage()), // Update this with the correct page if needed
+                  _featureButtonWithNavigation(context, Icons.calendar_today, "Booking & Training", BookingPage()),
+                ],
               ),
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Image.asset('assets/coffeeShop.jpg', height: 120),
-                    SizedBox(height: 10),
-                    Text("Your Coffee, Your Way", style: Theme.of(context).textTheme.titleLarge),
-                    Text("Shop coffee products, tools, and accessories."),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Get Started"),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+
             SizedBox(height: 20),
             Text("Top Baristas", style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 10),
@@ -171,6 +144,25 @@ class HomePage extends StatelessWidget {
     );
   }
 
+
+  Widget _featureButtonWithNavigation(BuildContext context, IconData icon, String label, Widget page) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: Color(0xFF8B5E3B),
+            radius: 30,
+            child: Icon(icon, color: Colors.white, size: 30),
+          ),
+          SizedBox(height: 5),
+          Text(label, textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF3E2723))),
+        ],
+      ),
+    );
+  }
 
   Widget _baristaProfile(String imagePath, String name) {
     return Column(
