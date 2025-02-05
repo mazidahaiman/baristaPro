@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baristapros/views/Trainer.dart';
 
 class BookingPage extends StatefulWidget {
   @override
@@ -21,6 +22,21 @@ class _BookingPageState extends State<BookingPage> {
       'title': 'Latte Art Workshop',
       'description': 'Create beautiful latte art.',
       'price': 75,
+    },
+    {
+      'title': 'Cold Brew Mastery',
+      'description': 'Learn how to make the perfect cold brew.',
+      'price': 60,
+    },
+    {
+      'title': 'Coffee Cupping',
+      'description': 'Taste and evaluate different coffee beans.',
+      'price': 80,
+    },
+    {
+      'title': 'Home Brewing Methods',
+      'description': 'Explore various home brewing techniques.',
+      'price': 55,
     },
   ];
 
@@ -104,7 +120,14 @@ class _BookingPageState extends State<BookingPage> {
                 Text('\$${training['price']}'),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle apply button press
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TrainerPage(
+                          selectedTraining: training,
+                        ),
+                      ),
+                    );
                   },
                   child: Text('Apply'),
                 ),
