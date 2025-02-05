@@ -1,84 +1,10 @@
 import 'package:flutter/material.dart';
 import 'community.dart';
-
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'BaristaPro',
-    theme: ThemeData(
-      primaryColor: Color(0xFF6F3C1B),
-      scaffoldBackgroundColor: Color.fromARGB(255, 241, 239, 237),
-      textTheme: TextTheme(
-        titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF3E2723)),
-        bodyMedium: TextStyle(fontSize: 16, color: Color(0xFF5D4037)),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF8B5E3B),
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-        ),
-      ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Color(0xFF3E2723),
-        selectedItemColor: Color(0xFFD2A679),
-        unselectedItemColor: Color(0xFF8B5E3B),
-      ),
-    ),
-    initialRoute: '/home',
-    routes: {
-      '/home': (context) => HomePage(),
-      '/community': (context) => CommunityForumPage(),
-       // Create ProfilePage if not yet defined
-    },
-  ));
-}
-
-
-class BaristaPro extends StatelessWidget {
-  const BaristaPro({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BaristaPro',
-      theme: ThemeData(
-        primaryColor: Color(0xFF6F3C1B),
-        scaffoldBackgroundColor: Color.fromARGB(255, 241, 239, 237),
-        textTheme: TextTheme(
-          titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF3E2723)),
-          bodyMedium: TextStyle(fontSize: 16, color: Color(0xFF5D4037)),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF8B5E3B),
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-          ),
-        ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Color(0xFF3E2723),
-          selectedItemColor: Color(0xFFD2A679),
-          unselectedItemColor: Color(0xFF8B5E3B),
-        ),
-      ),
-      home: HomePage(),
-    );
-  }
-}
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
+  HomePage({Key? key}) : super(key: key);
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +21,34 @@ class HomePage extends StatelessWidget {
                 Text("Hello, Barista!", style: Theme.of(context).textTheme.titleLarge),
                 Row(
                   children: [
-                    Icon(Icons.notifications, size: 28, color: Color(0xFF3E2723)),
-                    Icon(Icons.settings, size: 28, color: Color(0xFF3E2723)),
-                    SizedBox(width: 10),
+                    IconButton(
+                      icon: Icon(Icons.notifications, size: 28, color: Color(0xFF3E2723)),
+                      onPressed: () {},
+                    ),
+                    PopupMenuButton<String>(
+                      icon: Icon(Icons.settings, size: 28, color: Color(0xFF3E2723)),
+                      onSelected: (String value) {
+                        if (value == 'terms') {
+                          // Navigate to terms and policies page (Implement later)
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Terms & Policies Clicked")),
+                          );
+                        } else if (value == 'logout') {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.of(context).pushReplacementNamed('/');
+                        }
+                      },
+                      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                        PopupMenuItem<String>(
+                          value: 'terms',
+                          child: Text('Terms & Policies'),
+                        ),
+                        PopupMenuItem<String>(
+                          value: 'logout',
+                          child: Text('Log Out'),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -105,9 +56,16 @@ class HomePage extends StatelessWidget {
             Text("Enhance your coffee skills and business."),
             SizedBox(height: 20),
             TextField(
+              controller: _searchController,
               decoration: InputDecoration(
                 hintText: "Search for coffee recipes, tools...",
-                prefixIcon: Icon(Icons.search, color: Color(0xFF5D4037)),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search, color: Color(0xFF5D4037)),
+                  onPressed: () {
+                    print("Searching: \${_searchController.text}");
+                    // Implement search functionality here
+                  },
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -174,7 +132,8 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+        ),
+
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
