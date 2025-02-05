@@ -19,7 +19,7 @@ class ProfilePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w200,
-            color: Colors.red,
+            color: Colors.white,
           ),
         ),
       ),
