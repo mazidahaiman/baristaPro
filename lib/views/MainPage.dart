@@ -10,10 +10,18 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List<Map<String, dynamic>> cartItems = [];
+  String _searchQuery = '';
+  String _selectedCategory = 'All';
 
   void addToCart(String title, double price) {
     setState(() {
       cartItems.add({'title': title, 'price': price});
+    });
+  }
+
+  void _selectCategory(String category) {
+    setState(() {
+      _selectedCategory = category;
     });
   }
 
@@ -41,21 +49,10 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           children: [
             SizedBox(height: 10),
-            Text(
-              "What are you looking for?",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(2.0),
-              child: SearchWidget(),
-            ),
+            _buildSearchBar(),
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: CategoriesWidget(),
+              child: CategoriesWidget(onCategorySelected: _selectCategory),
             ),
             Padding(
               padding: EdgeInsets.all(8.0),
@@ -81,44 +78,40 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            ProductsWidget(addToCart: addToCart),
+            ProductsWidget(
+              addToCart: addToCart,
+              searchQuery: _searchQuery,
+              selectedCategory: _selectedCategory,
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-class SearchWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
+  Widget _buildSearchBar() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: TextField(
         decoration: InputDecoration(
-          border: InputBorder.none,
-          prefixIcon: Icon(Icons.search),
-          hintText: "Search",
-          hintStyle: TextStyle(color: Colors.grey),
+          labelText: 'Search',
+          border: OutlineInputBorder(),
         ),
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
       ),
     );
   }
 }
 
 class CategoriesWidget extends StatelessWidget {
+  final Function(String) onCategorySelected;
+
+  const CategoriesWidget({required this.onCategorySelected});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,12 +119,12 @@ class CategoriesWidget extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          CategoryItemWidget(title: "Coffee", icon: Icons.local_cafe),
-          CategoryItemWidget(title: "Burger", icon: Icons.fastfood),
-          CategoryItemWidget(title: "Pizza", icon: Icons.local_pizza),
-          CategoryItemWidget(title: "Beer", icon: Icons.local_bar),
-          CategoryItemWidget(title: "Cake", icon: Icons.cake),
-          CategoryItemWidget(title: "Ice Cream", icon: Icons.icecream),
+          CategoryItemWidget(title: "All", icon: Icons.all_inclusive, onCategorySelected: onCategorySelected),
+          CategoryItemWidget(title: "Coffee", icon: Icons.local_cafe, onCategorySelected: onCategorySelected),
+          CategoryItemWidget(title: "Tool", icon: Icons.build, onCategorySelected: onCategorySelected),
+          CategoryItemWidget(title: "Book", icon: Icons.book, onCategorySelected: onCategorySelected),
+          CategoryItemWidget(title: "Accessories", icon: Icons.accessibility, onCategorySelected: onCategorySelected),
+          CategoryItemWidget(title: "Gift Set", icon: Icons.card_giftcard, onCategorySelected: onCategorySelected),
         ],
       ),
     );
@@ -141,41 +134,45 @@ class CategoriesWidget extends StatelessWidget {
 class CategoryItemWidget extends StatelessWidget {
   final String title;
   final IconData icon;
+  final Function(String) onCategorySelected;
 
-  CategoryItemWidget({required this.title, required this.icon});
+  const CategoryItemWidget({required this.title, required this.icon, required this.onCategorySelected});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      height: 80,
-      width: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Colors.black, size: 30),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () => onCategorySelected(title),
+      child: Container(
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.black, size: 30),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -183,36 +180,48 @@ class CategoryItemWidget extends StatelessWidget {
 
 class ProductsWidget extends StatelessWidget {
   final Function(String, double) addToCart;
+  final String searchQuery;
+  final String selectedCategory;
 
-  ProductsWidget({required this.addToCart});
+  const ProductsWidget({required this.addToCart, required this.searchQuery, required this.selectedCategory});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          ProductItemWidget(
-            title: "Espresso",
-            price: 3.0,
-            image: AssetImage("images/espresso.jpg"),
-            addToCart: addToCart,
-          ),
-          ProductItemWidget(
-            title: "Latte",
-            price: 4.0,
-            image: AssetImage("images/latte.jpg"),
-            addToCart: addToCart,
-          ),
-          ProductItemWidget(
-            title: "Cappuccino",
-            price: 4.5,
-            image: AssetImage("images/cappuccino.jpg"),
-            addToCart: addToCart,
-          ),
-        ],
+    final products = [
+      {'title': 'Espresso', 'price': 3.0, 'category': 'Coffee'},
+      {'title': 'Latte', 'price': 4.0, 'category': 'Coffee'},
+      {'title': 'Coffee Grinder', 'price': 50.0, 'category': 'Tool'},
+      {'title': 'Coffee Maker', 'price': 100.0, 'category': 'Tool'},
+      {'title': 'Barista Handbook', 'price': 20.0, 'category': 'Book'},
+      {'title': 'Coffee Mug', 'price': 10.0, 'category': 'Accessories'},
+      {'title': 'Gift Set', 'price': 30.0, 'category': 'Gift Set'},
+    ];
+
+    final filteredProducts = products.where((product) {
+      final title = product['title'] as String;
+      final category = product['category'] as String;
+      final matchesSearchQuery = title.toLowerCase().contains(searchQuery.toLowerCase());
+      final matchesCategory = selectedCategory == 'All' || category == selectedCategory;
+      return matchesSearchQuery && matchesCategory;
+    }).toList();
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // Adjust the number of items per row as needed
+        childAspectRatio: 0.67, // Adjust the aspect ratio as needed
       ),
+      itemCount: filteredProducts.length,
+      itemBuilder: (context, index) {
+        final product = filteredProducts[index];
+        return ProductItemWidget(
+          title: product['title'] as String,
+          price: product['price'] as double,
+          image: AssetImage('images/${(product['title'] as String).toLowerCase()}.png'),
+          addToCart: addToCart,
+        );
+      },
     );
   }
 }
@@ -236,8 +245,8 @@ class ProductItemWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
-      height: 300,
-      width: 200,
+      height: 150,
+      width: 150,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -253,7 +262,7 @@ class ProductItemWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image(image: image, height: 150),
+          Image(image: image, height: 100),
           Text(
             title,
             style: TextStyle(
