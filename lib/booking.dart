@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,28 +8,15 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<String, dynamic>? paymentIntent;
 
-  Future<void> _makePayment() async {
+  Future<void> _handlePayment() async {
     try {
-      // 1️⃣ Create Payment Intent
-      paymentIntent = await _createPaymentIntent(20.0, 'usd');
-
-      // 2️⃣ Initialize Payment Sheet
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: paymentIntent!['client_secret'],
-          merchantDisplayName: "Your App",
-        ),
-      );
-
-      // 3️⃣ Present Payment Sheet
-      await Stripe.instance.presentPaymentSheet();
+      final paymentIntentData = await _createPaymentIntent(100.0, 'usd');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Payment Successful!")));
       
       setState(() {
-        paymentIntent = null;
+        paymentIntent = paymentIntentData;
       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Payment Failed: $error")));
@@ -40,7 +26,7 @@ class _BookingScreenState extends State<BookingScreen> {
   Future<Map<String, dynamic>> _createPaymentIntent(double amount, String currency) async {
     try {
       // ⚠️ Using Secret Key Directly (Not Recommended)
-      const stripeSecretKey = "sk_test_51Qo6b6..."; // Your Secret Key
+      const stripeSecretKey = "sk_test_51Qo6b6BLKlPtHpESBYTImTEbb2q3QjvtRy8CJaWbZxbVYEyaO5mJurVdXWKnQOEI9Eni59MmpJLkyCsSeMFSkBzb00zefazbN5"; // Your Secret Key
 
       final response = await http.post(
         Uri.parse("https://api.stripe.com/v1/payment_intents"),
@@ -49,35 +35,31 @@ class _BookingScreenState extends State<BookingScreen> {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: {
-          "amount": (amount * 100).toString(), // Convert to cents
-          "currency": currency,
-          "payment_method_types[]": "card",
+          'amount': (amount * 100).toString(), // Stripe expects the amount in cents
+          'currency': currency,
         },
       );
 
-      return jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to create payment intent');
+      }
     } catch (error) {
-      throw Exception(error);
+      throw Exception('Error creating payment intent: $error');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Booking Page")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              // Add your form fields here
-              ElevatedButton(
-                onPressed: _makePayment,
-                child: Text("Make Payment"),
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        title: Text('Booking Page'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _handlePayment,
+          child: Text('Pay Now'),
         ),
       ),
     );

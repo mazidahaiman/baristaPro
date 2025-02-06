@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'marketplace.dart';
-import 'booking.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:baristapros/views/MainPage.dart';
+import 'package:baristapros/views/BookingPage.dart';
 
-void main() {
-  Stripe.publishableKey = "pk_test_51Qo6b6BLKlPtHpESHgtzUfMcRWWh66v2bRouNmmwqqG0SzrxYFkWJID0mpgfouSQFx1Xe8b0V7BQokYAyKUlIN6I00XGot2cZN";
+// DotEnv dotenv = DotEnv() is automatically called during import.
+// If you want to load multiple dotenv files or name your dotenv object differently, you can do the following and import the singleton into the relevant files:
+// DotEnv another_dotenv = DotEnv()
+
+Future<void> main() async {
+  // Ensure that the Flutter binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // To load the .env file contents into dotenv.
+  // NOTE: fileName defaults to .env and can be omitted in this case.
+  // Ensure that the filename corresponds to the path in step 1 and 2.
+  await dotenv.load(fileName: ".env");
+
   runApp(MyApp());
 }
 
@@ -37,7 +48,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MarketplaceScreen()),
+                  MaterialPageRoute(builder: (context) => MainPage()),
                 );
               },
               child: Text('Go to Marketplace'),
@@ -47,7 +58,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BookingScreen()),
+                  MaterialPageRoute(builder: (context) => BookingPage()),
                 );
               },
               child: Text('Go to Booking'),
