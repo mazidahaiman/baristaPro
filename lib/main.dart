@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'BaristaPro App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -51,9 +52,11 @@ class HomeScreen extends StatelessWidget {
               },
               child: Text('Go to Booking'),
             ),
+            
           ],
         ),
       ),
     );
   }
 }
+
