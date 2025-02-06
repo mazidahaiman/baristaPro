@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:baristapros/views/Summary.dart';
-=======
-import 'package:trytest/views/Summary.dart';
->>>>>>> community-forum
 
 class TrainerPage extends StatelessWidget {
   final List<Map<String, dynamic>> trainers = [

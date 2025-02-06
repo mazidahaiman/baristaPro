@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:baristapros/views/PaymentPage.dart';
-=======
-import 'package:trytest/views/PaymentPage.dart';
->>>>>>> community-forum
 
 class SummaryPage extends StatelessWidget {
   final Map<String, dynamic> selectedTraining;

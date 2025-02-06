@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:baristapros/views/Trainer.dart';
-=======
-import 'package:trytest/views/Trainer.dart';
->>>>>>> community-forum
 
 class BookingPage extends StatefulWidget {
   @override

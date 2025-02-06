@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:baristapros/views/CartPage.dart';
-=======
-import 'package:trytest/views/CartPage.dart';
->>>>>>> community-forum
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

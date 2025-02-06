@@ -1,7 +1,8 @@
+import 'package:baristapros/views/BookingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:trytest/views/BookingPage.dart';
-import 'package:trytest/views/MainPage.dart';
+import 'package:baristapros/booking.dart';
+import 'package:baristapros/views/MainPage.dart';
 
 class HomePage extends StatelessWidget {
   

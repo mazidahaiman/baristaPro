@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
+
 import 'package:baristapros/views/PaymentPage.dart';
-=======
-import 'package:trytest/views/PaymentPage.dart';
->>>>>>> community-forum
+
 
 class CartPage extends StatefulWidget {
   final List<Map<String, dynamic>> cartItems;
