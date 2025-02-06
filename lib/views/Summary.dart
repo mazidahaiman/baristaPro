@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trytest/views/PaymentPage.dart';
+import 'PaymentPage.dart';
 
 class SummaryPage extends StatelessWidget {
   final Map<String, dynamic> selectedTraining;
@@ -14,63 +14,92 @@ class SummaryPage extends StatelessWidget {
         title: Text('Summary'),
         backgroundColor: Colors.brown[800],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/coffee_background.jpg'),
-            fit: BoxFit.cover,
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/coffee_background.jpg'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Training: ${selectedTraining['title']}',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.brown[900],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                color: Colors.white.withOpacity(0.8),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Training: ${selectedTraining['title']}',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown[900],
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Description: ${selectedTraining['description']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.brown[700],
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Price: \$${selectedTraining['price']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.brown[700],
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Date: ${selectedTraining['date']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.brown[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Description: ${selectedTraining['description']}',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.brown[700],
+              SizedBox(height: 20),
+              Card(
+                color: Colors.white.withOpacity(0.8),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Trainer: ${selectedTrainer['name']}',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown[900],
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Experience: ${selectedTrainer['experience']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.brown[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Price: \$${selectedTraining['price']}',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.brown[700],
-              ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Trainer: ${selectedTrainer['name']}',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.brown[900],
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Experience: ${selectedTrainer['experience']}',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.brown[700],
-              ),
-            ),
-            SizedBox(height: 16),
-            Center(
-              child: ElevatedButton(
+              SizedBox(height: 24),
+              ElevatedButton(
                 onPressed: () {
-                  // Handle proceed to payment
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PaymentPage()),
@@ -83,8 +112,8 @@ class SummaryPage extends StatelessWidget {
                 ),
                 child: Text('Proceed to Payment'),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

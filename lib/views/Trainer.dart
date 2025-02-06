@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trytest/views/Summary.dart';
+import 'Summary.dart';
 
 class TrainerPage extends StatelessWidget {
   final List<Map<String, dynamic>> trainers = [

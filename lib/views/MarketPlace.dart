@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trytest/views/CartPage.dart';
+import 'CartPage.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Main Page'),
+        title: Text('MarketPlace'),
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -64,14 +64,6 @@ class _MainPageState extends State<MainPage> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "See All",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -167,7 +159,7 @@ class CategoryItemWidget extends StatelessWidget {
               title,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -209,8 +201,7 @@ class ProductsWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // Adjust the number of items per row as needed
-        childAspectRatio: 0.67, // Adjust the aspect ratio as needed
+        crossAxisCount: 3, // Adjust the number of items per row as needed
       ),
       itemCount: filteredProducts.length,
       itemBuilder: (context, index) {
@@ -218,7 +209,7 @@ class ProductsWidget extends StatelessWidget {
         return ProductItemWidget(
           title: product['title'] as String,
           price: product['price'] as double,
-          image: AssetImage('images/${(product['title'] as String).toLowerCase()}.png'),
+          image: AssetImage('images/${(product['title'] as String).toLowerCase()}.jpg'),
           addToCart: addToCart,
         );
       },
@@ -243,10 +234,8 @@ class ProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      height: 150,
-      width: 150,
+      margin: EdgeInsets.all(50),
+      padding: EdgeInsets.all(50),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -272,7 +261,7 @@ class ProductItemWidget extends StatelessWidget {
             ),
           ),
           Text(
-            "\$$price",
+            "\RM $price",
             style: TextStyle(
               color: Colors.black,
               fontSize: 15,

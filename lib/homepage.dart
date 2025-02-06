@@ -1,7 +1,8 @@
+import 'package:trytest/Freelance/FreelancePage.dart';
+import 'package:trytest/views/BookingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:trytest/views/BookingPage.dart';
-import 'package:trytest/views/MainPage.dart';
+import 'package:trytest/views/MarketPlace.dart';
 
 class HomePage extends StatelessWidget {
   
@@ -78,7 +79,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _featureButtonWithNavigation(context, Icons.store, "Marketplace", MainPage()),
-                  _featureButtonWithNavigation(context, Icons.work, "Freelance Opportunities", MainPage()), //updated
+                  _featureButtonWithNavigation(context, Icons.work, "Freelance Opportunities", FreelancePage()), //updated
                   _featureButtonWithNavigation(context, Icons.calendar_today, "Booking & Training", BookingPage()),
                 ],
               ),

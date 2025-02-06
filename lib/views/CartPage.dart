@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trytest/views/PaymentPage.dart';
+import 'PaymentPage.dart';
+
 
 class CartPage extends StatefulWidget {
   final List<Map<String, dynamic>> cartItems;
