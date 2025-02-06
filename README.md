@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1 align="center">
    BaristaPro
 </h1>
@@ -184,3 +185,21 @@ f. Community Forum Sequence Diagram
 1. Kvartalnyi, N., & Kvartalnyi, N. (2024, August 20). A guide to the application development Life cycle. Inoxoft |. https://inoxoft.com/blog/stages-of-app-development/
 2. OpenAI. (2024). ChatGPT (December 22, 2024). Retrieved from https://chat.openai.com/
 
+=======
+# trytest
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+>>>>>>> community-forum
