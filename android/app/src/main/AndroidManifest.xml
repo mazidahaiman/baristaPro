@@ -1,8 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.yourapp">
+
     <application
         android:label="baristapros"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Add the following meta-data element -->
+        <meta-data
+            android:name="com.google.android.geo.AIzaSyCqsq8XWmFbyfPsvPu6Xp-q6qCS6BLdxK0"
+            android:value="AIzaSyCqsq8XWmFbyfPsvPu6Xp-q6qCS6BLdxK0"/>
+        <!-- Other existing elements -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
