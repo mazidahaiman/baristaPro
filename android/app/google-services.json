@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "503461756807",
+    "project_id": "baristapros",
+    "storage_bucket": "baristapros.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503461756807:android:da68fc548e181a58649d22",
+        "android_client_info": {
+          "package_name": "com.example.trytest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503461756807-abc2h5q08gb5uv6c8icat3t4415seap7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTz-IEMy5qJWC-KWtU3mDVMR0LIX1LPn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503461756807-abc2h5q08gb5uv6c8icat3t4415seap7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "503461756807-9bo1v0d0bfo0ghti0k272o3bbcl8g0kq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.trytest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
