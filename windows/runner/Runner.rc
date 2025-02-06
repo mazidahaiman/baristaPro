@@ -90,21 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-<<<<<<< HEAD
             VALUE "FileDescription", "baristapros" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "baristapros" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "baristapros.exe" "\0"
             VALUE "ProductName", "baristapros" "\0"
-=======
-            VALUE "FileDescription", "trytest" "\0"
-            VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "trytest" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "trytest.exe" "\0"
-            VALUE "ProductName", "trytest" "\0"
->>>>>>> community-forum
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

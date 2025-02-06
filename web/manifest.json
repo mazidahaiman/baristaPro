@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
     "name": "baristapros",
     "short_name": "baristapros",
-=======
-    "name": "trytest",
-    "short_name": "trytest",
->>>>>>> community-forum
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
