@@ -1,21 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'ProfilePage.dart';
-import 'Freelance/FreelancePage.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  if (kIsWeb) {
-   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); 
-  }
-  else {
-    await Firebase.initializeApp();
-  }
-  
-
+void main() {
   runApp(const MyApp());
 }
 
@@ -52,16 +39,6 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: Text('Profile Page'),
-            ),
-            SizedBox(height: 20), // Add some space between the buttons
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FreelancePage()),
-                );
-              },
-              child: Text('Freelance Page'),
             ),
           ],
         ),
